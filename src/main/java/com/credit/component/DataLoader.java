@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
-    private final LoanRepository repository;
+  private final LoanRepository repository;
 
-    @Override
-    public void run(String... args) {
-        // Наполняем репозиторий при старте
-        repository.save(new Loan(null, "Ivan Ivanov", 50000.0, "APPROVED"));
-        repository.save(new Loan(null, "Petr Petrov", 1500000.0, "REJECTED"));
-        repository.save(new Loan(null, "Sidor Sidorov", 250000.0, "PENDING"));
+  @Override
+  public void run(String... args) {
+    // Наполняем репозиторий при старте
+    repository.save(new Loan(null, "Ivan Ivanov", 50000.0, "APPROVED"));
+    repository.save(new Loan(null, "Petr Petrov", 1500000.0, "REJECTED"));
+    repository.save(new Loan(null, "Sidor Sidorov", 250000.0, "PENDING"));
 
-        System.out.println(">> Database pre-loaded with 3 loans.");
-    }
+    System.out.println(">> Database pre-loaded with 3 loans.");
+  }
 }

@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Loan {
-    private Long id;
-    private String clientName;
-    private Double amount;
-    private String status;
+
+  private Long id;
+  private String clientName;
+  private Double amount;
+  private String status;
 }
