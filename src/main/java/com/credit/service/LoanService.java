@@ -1,5 +1,6 @@
 package com.credit.service;
 
+import com.credit.dto.LoanDto;
 import com.credit.model.Loan;
 import com.credit.repository.LoanRepository;
 import java.util.List;
@@ -12,16 +13,29 @@ public class LoanService {
 
   private final LoanRepository repository;
 
-  public List<Loan> getAllLoans(String status) {
-    if (status == null) {
-      return repository.findAll();
-    }
+  public List<LoanDto> getAllLoans(String status, Double amount) {
     return repository.findAll().stream()
-        .filter(l -> l.getStatus().equalsIgnoreCase(status))
+        // Фильтрация по статусу (если передан)
+        .filter(l -> status == null || l.getStatus().equalsIgnoreCase(status))
+        // Фильтрация по сумме (если передана)
+        .filter(l -> amount == null || l.getAmount().equals(amount))
+        // Трансформация в DTO
+        .map(this::convertToDto)
         .toList();
   }
 
-  public Loan getLoanById(Long id) {
-    return repository.findById(id).orElseThrow();
+  public LoanDto getLoanById(Long id) {
+    return repository.findById(id)
+        .map(this::convertToDto)
+        .orElseThrow(() -> new RuntimeException("Loan not found"));
+  }
+
+  private LoanDto convertToDto(Loan loan) {
+    return new LoanDto(
+        loan.getId(),
+        loan.getClientName(),
+        loan.getAmount(),
+        loan.getStatus()
+    );
   }
 }
