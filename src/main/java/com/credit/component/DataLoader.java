@@ -11,16 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
-
   private final LoanRepository repository;
+
+  private static final double VAL_1 = 50000.0;
+  private static final double VAL_2 = 150000.0;
 
   @Override
   public void run(String... args) {
-    // Наполняем репозиторий при старте
-    repository.save(new Loan(null, "Ivan Ivanov", 50000.0, "APPROVED"));
-    repository.save(new Loan(null, "Petr Petrov", 1500000.0, "REJECTED"));
-    repository.save(new Loan(null, "Sidor Sidorov", 250000.0, "PENDING"));
-
-    log.info(">> Database pre-loaded with 3 loans.");
+    repository.save(Loan.builder().clientName("Ivanov").amount(VAL_1).status("APPROVED").build());
+    repository.save(Loan.builder().clientName("Petrov").amount(VAL_2).status("PENDING").build());
+    log.info(">> База данных инициализирована через JPA.");
   }
 }
