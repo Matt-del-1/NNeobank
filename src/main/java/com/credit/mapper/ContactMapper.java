@@ -24,7 +24,6 @@ public class ContactMapper {
     if (dto == null) {
       return null;
     }
-    Profile profile = null;
     return Contact.builder()
         .id(dto.getId())
         .profile(null)

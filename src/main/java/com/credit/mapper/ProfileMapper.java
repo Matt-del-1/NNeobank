@@ -25,7 +25,6 @@ public class ProfileMapper {
     if (dto == null) {
       return null;
     }
-    User user = null;
     return Profile.builder()
         .id(dto.getId())
         .user(null)
