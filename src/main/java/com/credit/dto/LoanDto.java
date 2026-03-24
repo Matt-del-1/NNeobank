@@ -1,10 +1,21 @@
 package com.credit.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record LoanDto(
-    Long id,
-    @JsonProperty("client_name") String clientName,
-    Double amount,
-    String status
-) {}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class LoanDto {
+  private Long id;
+  private Double amount;
+  private String currentState;
+  private LocalDateTime lastUpdate;
+  private Long profileId;
+  private Set<Long> categoryIds;
+}

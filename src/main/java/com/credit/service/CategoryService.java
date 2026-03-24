@@ -1,0 +1,61 @@
+package com.credit.service;
+
+import com.credit.dto.CategoryDto;
+import com.credit.mapper.CategoryMapper;
+import com.credit.model.Category;
+import com.credit.repository.CategoryRepository;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryService {
+
+  private final CategoryRepository categoryRepository;
+  private final CategoryMapper categoryMapper;
+
+  @Transactional
+  public CategoryDto create(CategoryDto dto) {
+    // Проверка на уникальность названия категории, чтобы не дублировать
+    if (categoryRepository.existsByName(dto.getName())) {
+      throw new RuntimeException("Category with this name already exists");
+    }
+    Category category = categoryMapper.toEntity(dto);
+    return categoryMapper.toDto(categoryRepository.save(category));
+  }
+
+  @Transactional(readOnly = true)
+  public CategoryDto findById(Long id) {
+    return categoryRepository.findById(id)
+        .map(categoryMapper::toDto)
+        .orElseThrow(() -> new RuntimeException("Category not found with ID: " + id));
+  }
+
+  @Transactional(readOnly = true)
+  public List<CategoryDto> findAll() {
+    return categoryRepository.findAll().stream()
+        .map(categoryMapper::toDto)
+        .toList();
+  }
+
+  @Transactional
+  public CategoryDto update(Long id, CategoryDto dto) {
+    Category existingCategory = categoryRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Category not found"));
+
+    existingCategory.setName(dto.getName());
+    existingCategory.setRate(dto.getRate());
+
+    return categoryMapper.toDto(categoryRepository.save(existingCategory));
+  }
+
+  @Transactional
+  public void deleteById(Long id) {
+    if (!categoryRepository.existsById(id)) {
+      throw new RuntimeException("Category not found");
+    }
+    categoryRepository.deleteById(id);
+  }
+}
