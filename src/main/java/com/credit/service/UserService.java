@@ -18,9 +18,6 @@ public class UserService {
 
   @Transactional
   public UserDto save(UserDto dto) {
-    if (userRepository.existsByUsername(dto.getUsername())) {
-      throw new RuntimeException("Username is already taken");
-    }
     User user = userMapper.toEntity(dto);
     return userMapper.toDto(userRepository.save(user));
   }
