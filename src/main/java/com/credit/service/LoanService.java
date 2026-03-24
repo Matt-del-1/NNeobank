@@ -86,9 +86,6 @@ public class LoanService {
 
   @Transactional
   public void deleteById(Long id) {
-    if (!loanRepository.existsById(id)) {
-      throw new RuntimeException("Loan not found");
-    }
     loanRepository.deleteById(id);
   }
 
@@ -102,10 +99,6 @@ public class LoanService {
     loan.setLastUpdate(LocalDateTime.now());
 
     Loan savedLoan = loanRepository.save(loan);
-
-    if (savedLoan.getAmount() > 0) {
-      throw new RuntimeException("ИСКУССТВЕННАЯ ОШИБКА: Транзакция должна откатиться!");
-    }
 
     return loanMapper.toDto(savedLoan);
   }

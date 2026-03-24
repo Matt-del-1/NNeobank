@@ -64,9 +64,6 @@ public class ContactService {
 
   @Transactional
   public void deleteById(Long id) {
-    if (!contactRepository.existsById(id)) {
-      throw new RuntimeException("Delete failed: Contact not found");
-    }
     contactRepository.deleteById(id);
   }
 }

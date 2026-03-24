@@ -18,10 +18,6 @@ public class CategoryService {
 
   @Transactional
   public CategoryDto create(CategoryDto dto) {
-    // Проверка на уникальность названия категории, чтобы не дублировать
-    if (categoryRepository.existsByName(dto.getName())) {
-      throw new RuntimeException("Category with this name already exists");
-    }
     Category category = categoryMapper.toEntity(dto);
     return categoryMapper.toDto(categoryRepository.save(category));
   }
@@ -53,9 +49,6 @@ public class CategoryService {
 
   @Transactional
   public void deleteById(Long id) {
-    if (!categoryRepository.existsById(id)) {
-      throw new RuntimeException("Category not found");
-    }
     categoryRepository.deleteById(id);
   }
 }

@@ -21,14 +21,8 @@ public class ProfileService {
 
   @Transactional
   public ProfileDto create(ProfileDto dto) {
-    // Проверяем, существует ли пользователь в базе
     User user = userRepository.findById(dto.getUserId())
         .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
-
-    // Проверяем, нет ли уже профиля у этого пользователя (One-to-One)
-    if (profileRepository.existsByUserId(dto.getUserId())) {
-      throw new RuntimeException("Profile already exists for user ID: " + dto.getUserId());
-    }
 
     Profile profile = profileMapper.toEntity(dto);
     profile.setUser(user);
@@ -71,9 +65,6 @@ public class ProfileService {
 
   @Transactional
   public void deleteById(Long id) {
-    if (!profileRepository.existsById(id)) {
-      throw new RuntimeException("Profile not found");
-    }
     profileRepository.deleteById(id);
   }
 }
