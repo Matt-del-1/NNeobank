@@ -99,6 +99,9 @@ public class LoanService {
     loan.setLastUpdate(LocalDateTime.now());
 
     Loan savedLoan = loanRepository.save(loan);
+    if (savedLoan.getAmount() > 0) {
+      throw new RuntimeException("ИСКУССТВЕННАЯ ОШИБКА: Транзакция должна откатиться!");
+    }
 
     return loanMapper.toDto(savedLoan);
   }
