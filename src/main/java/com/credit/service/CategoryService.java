@@ -51,4 +51,17 @@ public class CategoryService {
   public void deleteById(Long id) {
     categoryRepository.deleteById(id);
   }
+
+
+  public void doubleSaveDemo(List<CategoryDto> dtos) {
+    for (CategoryDto dto : dtos) {
+
+      if (dto.getRate() != null && dto.getRate() < 0) {
+        throw new RuntimeException("Rate cannot be negative!");
+      }
+
+      Category category = categoryMapper.toEntity(dto);
+      categoryRepository.save(category);
+    }
+  }
 }

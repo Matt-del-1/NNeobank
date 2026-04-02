@@ -99,7 +99,9 @@ public class LoanService {
     loan.setLastUpdate(LocalDateTime.now());
 
     Loan savedLoan = loanRepository.save(loan);
-
+    if (savedLoan.getAmount() > 0) {
+      throw new RuntimeException("Simulated Error: Rollback!");
+    }
 
     return loanMapper.toDto(savedLoan);
   }
