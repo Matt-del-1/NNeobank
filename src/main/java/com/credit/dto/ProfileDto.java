@@ -14,5 +14,5 @@ public class ProfileDto {
   private Long userId;
   private String firstName;
   private String lastName;
-  private String last2Name;
+  private String middleName;
 }

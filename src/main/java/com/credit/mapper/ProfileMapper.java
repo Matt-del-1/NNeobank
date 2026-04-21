@@ -17,7 +17,7 @@ public class ProfileMapper {
         .userId(profile.getUser() != null ? profile.getUser().getId() : null)
         .firstName(profile.getFirstName())
         .lastName(profile.getLastName())
-        .last2Name(profile.getMiddleName())
+        .middleName(profile.getMiddleName())
         .build();
   }
 
@@ -30,7 +30,7 @@ public class ProfileMapper {
         .user(null)
         .firstName(dto.getFirstName())
         .lastName(dto.getLastName())
-        .middleName(dto.getLast2Name())
+        .middleName(dto.getMiddleName())
         .build();
   }
 }

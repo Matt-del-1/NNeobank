@@ -1,9 +1,12 @@
 package com.credit.service;
 
+import com.credit.dto.ContactDto;
 import com.credit.dto.ProfileDto;
 import com.credit.mapper.ProfileMapper;
+import com.credit.model.Contact;
 import com.credit.model.Profile;
 import com.credit.model.User;
+import com.credit.repository.ContactRepository;
 import com.credit.repository.ProfileRepository;
 import com.credit.repository.UserRepository;
 import java.util.List;
@@ -18,6 +21,8 @@ public class ProfileService {
   private final ProfileRepository profileRepository;
   private final UserRepository userRepository;
   private final ProfileMapper profileMapper;
+  private final ContactRepository contactRepository;
+  private final com.credit.mapper.ContactMapper contactMapper;
 
   @Transactional
   public ProfileDto create(ProfileDto dto) {
@@ -58,7 +63,7 @@ public class ProfileService {
 
     existingProfile.setFirstName(dto.getFirstName());
     existingProfile.setLastName(dto.getLastName());
-    existingProfile.setMiddleName(dto.getLast2Name());
+    existingProfile.setMiddleName(dto.getMiddleName());
 
     return profileMapper.toDto(profileRepository.save(existingProfile));
   }
@@ -66,5 +71,28 @@ public class ProfileService {
   @Transactional
   public void deleteById(Long id) {
     profileRepository.deleteById(id);
+  }
+
+  @Transactional
+  public void saveFullProfileDemo(ProfileDto profileDto, List<ContactDto> contactDtos) {
+    User user = userRepository.findById(profileDto.getUserId())
+        .orElseThrow(() -> new RuntimeException("Ошибка: Сначала создайте User с ID " + profileDto.getUserId()));
+
+    Profile profile = profileMapper.toEntity(profileDto);
+    profile.setUser(user);
+    Profile savedProfile = profileRepository.save(profile);
+    System.out.println(">>> Профиль сохранен. ID: " + savedProfile.getId());
+
+    for (ContactDto contactDto : contactDtos) {
+      if (contactDto.getEmail() != null && contactDto.getEmail().contains("error")) {
+        System.out.println("Error, rollback...");
+        throw new RuntimeException("error to rollback");
+      }
+
+      Contact contact = contactMapper.toEntity(contactDto);
+      contact.setProfile(savedProfile);
+      contactRepository.save(contact);
+      System.out.println(">>> Contact saved: " + contact.getEmail());
+    }
   }
 }

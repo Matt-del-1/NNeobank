@@ -54,4 +54,18 @@ public class ProfileController {
     profileService.deleteById(id);
     return ResponseEntity.noContent().build();
   }
+  // В ProfileController.java
+
+  @PostMapping("/test-transaction")
+  public ResponseEntity<String> testTransaction(@RequestBody TransactionTestRequest request) {
+    profileService.saveFullProfileDemo(request.getProfile(), request.getContacts());
+    return ResponseEntity.ok("Всё сохранено успешно (транзакция завершена)");
+  }
+
+  // Вспомогательный класс для приема данных (можно в этом же файле внизу)
+  @lombok.Data
+  public static class TransactionTestRequest {
+    private com.credit.dto.ProfileDto profile;
+    private java.util.List<com.credit.dto.ContactDto> contacts;
+  }
 }

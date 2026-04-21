@@ -49,9 +49,4 @@ public class CategoryController {
     categoryService.deleteById(id);
     return ResponseEntity.noContent().build();
   }
-  @PostMapping("/test-double")
-  public ResponseEntity<String> testDouble(@RequestBody List<CategoryDto> dtos) {
-    categoryService.doubleSaveDemo(dtos);
-    return ResponseEntity.ok("Success");
-  }
 }
