@@ -2,6 +2,7 @@ package com.credit.service;
 
 import com.credit.dto.ContactDto;
 import com.credit.dto.ProfileDto;
+import com.credit.mapper.ContactMapper;
 import com.credit.mapper.ProfileMapper;
 import com.credit.model.Contact;
 import com.credit.model.Profile;
@@ -22,7 +23,7 @@ public class ProfileService {
   private final UserRepository userRepository;
   private final ProfileMapper profileMapper;
   private final ContactRepository contactRepository;
-  private final com.credit.mapper.ContactMapper contactMapper;
+  private final ContactMapper contactMapper;
 
   @Transactional
   public ProfileDto create(ProfileDto dto) {

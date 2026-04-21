@@ -1,5 +1,7 @@
 package com.credit.service;
 
+import com.credit.cache.LoanCache;
+import com.credit.cache.LoanQueryKey;
 import com.credit.dto.LoanDto;
 import com.credit.mapper.LoanMapper;
 import com.credit.model.Category;
@@ -8,16 +10,14 @@ import com.credit.model.Profile;
 import com.credit.repository.CategoryRepository;
 import com.credit.repository.LoanRepository;
 import com.credit.repository.ProfileRepository;
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ public class LoanService {
   private final ProfileRepository profileRepository;
   private final CategoryRepository categoryRepository;
   private final LoanMapper loanMapper;
+  private final LoanCache loanCache;  // In-memory индекс
 
   @Transactional
   public LoanDto create(LoanDto dto) {
@@ -44,68 +45,153 @@ public class LoanService {
     loan.setLastUpdate(LocalDateTime.now());
 
     Loan savedLoan = loanRepository.save(loan);
+
+    // Инвалидируем кэш для этого профиля
+    loanCache.invalidateByProfileId(profile.getId());
+
     return loanMapper.toDto(savedLoan);
   }
 
-  // ==================== Методы с пагинацией ====================
+  // ==================== Методы с кэшированием ====================
 
   /**
-   * Получить все кредиты с пагинацией.
+   * Получить все кредиты с пагинацией (с кэшированием).
    */
   @Transactional(readOnly = true)
   public Page<LoanDto> findAll(Pageable pageable) {
-    return loanRepository.findAll(pageable)
+    LoanQueryKey key = LoanCache.createKeyForAll(pageable);
+
+    // Проверяем кэш
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    // Если нет в кэше — запрос к БД
+    Page<LoanDto> result = loanRepository.findAll(pageable)
         .map(loanMapper::toDto);
+
+    // Сохраняем в кэш
+    loanCache.put(key, result);
+
+    return result;
   }
 
   /**
-   * Найти кредиты по profileId с пагинацией.
+   * Найти кредиты по profileId с пагинацией (с кэшированием).
    */
   @Transactional(readOnly = true)
   public Page<LoanDto> findByProfileId(Long profileId, Pageable pageable) {
-    return loanRepository.findByProfileId(profileId, pageable)
+    LoanQueryKey key = LoanCache.createKeyForProfile(profileId, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByProfileId(profileId, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
   /**
-   * Найти кредиты по статусу с пагинацией.
+   * Найти кредиты по статусу с пагинацией (с кэшированием).
    */
   @Transactional(readOnly = true)
   public Page<LoanDto> findByState(String state, Pageable pageable) {
-    return loanRepository.findByCurrentState(state, pageable)
+    LoanQueryKey key = LoanCache.createKeyForState(state, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByCurrentState(state, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
-  // ==================== JPQL методы с пагинацией ====================
+  // ==================== JPQL методы с кэшированием ====================
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByCategoryName(String categoryName, Pageable pageable) {
-    return loanRepository.findByCategoryName(categoryName, pageable)
+    LoanQueryKey key = LoanCache.createKeyForCategory(categoryName, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByCategoryName(categoryName, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByProfileLastName(String lastName, Pageable pageable) {
-    return loanRepository.findByProfileLastName(lastName, pageable)
+    LoanQueryKey key = LoanCache.createKeyForLastName(lastName, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByProfileLastName(lastName, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByCategoryNameAndState(String categoryName, String state, Pageable pageable) {
-    return loanRepository.findByCategoryNameAndState(categoryName, state, pageable)
+    LoanQueryKey key = LoanCache.createKeyForCategoryAndState(categoryName, state, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByCategoryNameAndState(categoryName, state, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByUsername(String username, Pageable pageable) {
-    return loanRepository.findByUsername(username, pageable)
+    LoanQueryKey key = LoanCache.createKeyForUsername(username, pageable);
+
+    Page<LoanDto> cached = loanCache.get(key);
+    if (cached != null) {
+      return cached;
+    }
+
+    Page<LoanDto> result = loanRepository.findByUsername(username, pageable)
         .map(loanMapper::toDto);
+
+    loanCache.put(key, result);
+
+    return result;
   }
 
-  // ==================== Native Query методы с пагинацией ====================
+  // ==================== Native Query методы (без кэширования для сравнения) ====================
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByCategoryNameNative(String categoryName, Pageable pageable) {
+    // Native queries — без кэширования для демонстрации разницы
     return loanRepository.findByCategoryNameNative(categoryName, pageable)
         .map(loanMapper::toDto);
   }
@@ -139,11 +225,48 @@ public class LoanService {
     existingLoan.setCurrentState(dto.getCurrentState());
     existingLoan.setLastUpdate(LocalDateTime.now());
 
-    return loanMapper.toDto(loanRepository.save(existingLoan));
+    Long profileId = existingLoan.getProfile() != null ? existingLoan.getProfile().getId() : null;
+
+    LoanDto result = loanMapper.toDto(loanRepository.save(existingLoan));
+
+    // Инвалидируем кэш
+    if (profileId != null) {
+      loanCache.invalidateByProfileId(profileId);
+    }
+    loanCache.clear();  // Полная очистка для простоты
+
+    return result;
   }
 
   @Transactional
   public void deleteById(Long id) {
+    Loan loan = loanRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Loan not found"));
+
+    Long profileId = loan.getProfile() != null ? loan.getProfile().getId() : null;
+
     loanRepository.deleteById(id);
+
+    // Инвалидируем кэш
+    if (profileId != null) {
+      loanCache.invalidateByProfileId(profileId);
+    }
+    loanCache.clear();
+  }
+
+  // ==================== Методы для управления кэшем ====================
+
+  /**
+   * Очистить кэш (можно вызвать через API).
+   */
+  public void clearCache() {
+    loanCache.clear();
+  }
+
+  /**
+   * Получить размер кэша.
+   */
+  public int getCacheSize() {
+    return loanCache.size();
   }
 }
