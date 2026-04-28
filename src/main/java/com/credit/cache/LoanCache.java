@@ -8,18 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-/**
- * In-memory индекс (кэш) для результатов запросов кредитов.
- * Основан на HashMap<LoanQueryKey, Page<LoanDto>>.
- */
 @Component
 public class LoanCache {
 
   private final Map<LoanQueryKey, Page<LoanDto>> cache = new HashMap<>();
 
-  /**
-   * Получить результат из кэша.
-   */
   public Page<LoanDto> get(LoanQueryKey key) {
     Page<LoanDto> result = cache.get(key);
     if (result != null) {
@@ -28,25 +21,16 @@ public class LoanCache {
     return result;
   }
 
-  /**
-   * Сохранить результат в кэш.
-   */
   public void put(LoanQueryKey key, Page<LoanDto> value) {
     cache.put(key, value);
     System.out.println(">>> CACHE PUT: " + key);
   }
 
-  /**
-   * Очистить весь кэш.
-   */
   public void clear() {
     cache.clear();
     System.out.println(">>> CACHE CLEARED");
   }
 
-  /**
-   * Удалить записи по profileId.
-   */
   public void invalidateByProfileId(Long profileId) {
     cache.entrySet().removeIf(entry ->
         entry.getKey().getProfileId() != null &&
@@ -55,14 +39,9 @@ public class LoanCache {
     System.out.println(">>> CACHE INVALIDATED for profileId: " + profileId);
   }
 
-  /**
-   * Получить размер кэша.
-   */
   public int size() {
     return cache.size();
   }
-
-  // Фабричные методы для создания ключей
 
   public static LoanQueryKey createKeyForAll(Pageable pageable) {
     return LoanQueryKey.forAll(

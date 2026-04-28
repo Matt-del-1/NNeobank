@@ -1,10 +1,9 @@
 package com.credit.cache;
 
 import java.util.Objects;
+import lombok.Getter;
 
-/**
- * Составной ключ для кэша запросов кредитов.
- */
+@Getter
 public class LoanQueryKey {
 
   private final QueryType queryType;
@@ -90,17 +89,6 @@ public class LoanQueryKey {
     return Objects.hash(queryType, category, lastName, state, username, profileId, page, size, sort);
   }
 
-  // Геттеры
-  public QueryType getQueryType() { return queryType; }
-  public String getCategory() { return category; }
-  public String getLastName() { return lastName; }
-  public String getState() { return state; }
-  public String getUsername() { return username; }
-  public Long getProfileId() { return profileId; }
-  public int getPage() { return page; }
-  public int getSize() { return size; }
-  public String getSort() { return sort; }
-
   // Builder
   private static class Builder {
     private final QueryType queryType;
@@ -126,10 +114,4 @@ public class LoanQueryKey {
     LoanQueryKey build() { return new LoanQueryKey(this); }
   }
 
-  @Override
-  public String toString() {
-    return "LoanQueryKey{type=" + queryType + ", category='" + category + "', lastName='" + lastName +
-           "', state='" + state + "', username='" + username + "', profileId=" + profileId +
-           ", page=" + page + ", size=" + size + ", sort='" + sort + "'}";
-  }
 }
