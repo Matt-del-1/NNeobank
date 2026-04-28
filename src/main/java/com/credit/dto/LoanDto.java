@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LoanDto {
+
   private Long id;
   private Double amount;
   private String currentState;

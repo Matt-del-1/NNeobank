@@ -15,16 +15,21 @@ public class LoanCache {
   private final Map<LoanQueryKey, Page<LoanDto>> cache = new HashMap<>();
 
   public Page<LoanDto> get(LoanQueryKey key) {
-    return cache.get(key);
+    Page<LoanDto> result = cache.get(key);
+    if (result != null) {
+      System.out.println("CACHE HIT: " + key);
+    }
+    return result;
   }
 
   public void put(LoanQueryKey key, Page<LoanDto> value) {
     cache.put(key, value);
+    System.out.println("CACHE PUT: " + key);
   }
 
   public void clear() {
     cache.clear();
-    log.info("Cache cleared");
+    log.info("CACHE CLEARED");
   }
 
   private void invalidate(Predicate<LoanQueryKey> condition) {

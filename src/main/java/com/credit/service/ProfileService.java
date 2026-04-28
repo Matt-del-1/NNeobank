@@ -77,7 +77,8 @@ public class ProfileService {
   @Transactional
   public void saveFullProfileDemo(ProfileDto profileDto, List<ContactDto> contactDtos) {
     User user = userRepository.findById(profileDto.getUserId())
-        .orElseThrow(() -> new RuntimeException("Ошибка: Сначала создайте User с ID " + profileDto.getUserId()));
+        .orElseThrow(() -> new RuntimeException(
+            "Ошибка: Сначала создайте User с ID " + profileDto.getUserId()));
 
     Profile profile = profileMapper.toEntity(profileDto);
     profile.setUser(user);

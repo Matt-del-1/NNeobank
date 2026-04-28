@@ -8,7 +8,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/loans")
@@ -22,9 +30,6 @@ public class LoanController {
     return new ResponseEntity<>(loanService.create(loanDto), HttpStatus.CREATED);
   }
 
-  /**
-   * Получить все кредиты с пагинацией (кэшируется).
-   */
   @GetMapping
   public ResponseEntity<Page<LoanDto>> getAll(
       @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
@@ -44,8 +49,6 @@ public class LoanController {
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByState(state, pageable));
   }
-
-  // ==================== JPQL эндпоинты (кэшируются) ====================
 
   @GetMapping("/jpql/by-category")
   public ResponseEntity<Page<LoanDto>> getByCategoryName(
@@ -76,8 +79,6 @@ public class LoanController {
     return ResponseEntity.ok(loanService.findByUsername(username, pageable));
   }
 
-  // ==================== Native Query эндпоинты (БЕЗ кэширования) ====================
-
   @GetMapping("/native/by-category")
   public ResponseEntity<Page<LoanDto>> getByCategoryNameNative(
       @RequestParam String name,
@@ -97,7 +98,8 @@ public class LoanController {
       @RequestParam String category,
       @RequestParam String state,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
-    return ResponseEntity.ok(loanService.findByCategoryNameAndStateNative(category, state, pageable));
+    return ResponseEntity.ok(
+        loanService.findByCategoryNameAndStateNative(category, state, pageable));
   }
 
   @GetMapping("/native/by-username")
@@ -107,28 +109,17 @@ public class LoanController {
     return ResponseEntity.ok(loanService.findByUsernameNative(username, pageable));
   }
 
-  // ==================== Управление кэшем ====================
-
-  /**
-   * Очистить кэш.
-   * Пример: DELETE /api/loans/cache
-   */
   @DeleteMapping("/cache")
   public ResponseEntity<String> clearCache() {
     loanService.clearCache();
     return ResponseEntity.ok("Cache cleared");
   }
 
-  /**
-   * Получить размер кэша.
-   * Пример: GET /api/loans/cache/size
-   */
   @GetMapping("/cache/size")
   public ResponseEntity<Integer> getCacheSize() {
     return ResponseEntity.ok(loanService.getCacheSize());
   }
 
-  // ==================== CRUD операции ====================
 
   @PutMapping("/{id}")
   public ResponseEntity<LoanDto> update(@PathVariable Long id, @RequestBody LoanDto loanDto) {

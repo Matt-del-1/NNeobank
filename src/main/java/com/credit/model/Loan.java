@@ -28,6 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Loan {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

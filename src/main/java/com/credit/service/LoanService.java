@@ -34,7 +34,8 @@ public class LoanService {
   @Transactional
   public LoanDto create(LoanDto dto) {
     Profile profile = profileRepository.findById(dto.getProfileId())
-        .orElseThrow(() -> new RuntimeException("Profile not found with ID: " + dto.getProfileId()));
+        .orElseThrow(
+            () -> new RuntimeException("Profile not found with ID: " + dto.getProfileId()));
 
     Set<Category> categories = dto.getCategoryIds().stream()
         .map(id -> categoryRepository.findById(id)
@@ -59,7 +60,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for ALL");
       return cached;
     }
 
@@ -75,7 +75,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for profileId: {}", profileId);
       return cached;
     }
 
@@ -92,7 +91,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for state: {}", state);
       return cached;
     }
 
@@ -109,7 +107,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for category: {}", categoryName);
       return cached;
     }
 
@@ -126,7 +123,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for lastName: {}", lastName);
       return cached;
     }
 
@@ -138,12 +134,12 @@ public class LoanService {
   }
 
   @Transactional(readOnly = true)
-  public Page<LoanDto> findByCategoryNameAndState(String categoryName, String state, Pageable pageable) {
+  public Page<LoanDto> findByCategoryNameAndState(String categoryName, String state,
+      Pageable pageable) {
     LoanQueryKey key = new LoanQueryKey(null, categoryName, null, state, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for category+state: {} / {}", categoryName, state);
       return cached;
     }
 
@@ -160,7 +156,6 @@ public class LoanService {
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
-      log.debug("Cache hit for username: {}", username);
       return cached;
     }
 
@@ -184,7 +179,8 @@ public class LoanService {
   }
 
   @Transactional(readOnly = true)
-  public Page<LoanDto> findByCategoryNameAndStateNative(String categoryName, String state, Pageable pageable) {
+  public Page<LoanDto> findByCategoryNameAndStateNative(String categoryName, String state,
+      Pageable pageable) {
     return loanRepository.findByCategoryNameAndStateNative(categoryName, state, pageable)
         .map(loanMapper::toDto);
   }
@@ -247,8 +243,8 @@ public class LoanService {
     loanCache.clear();
   }
 
-  private void invalidateCacheForUpdate(Long profileId, String oldState, 
-                                        Set<String> oldCategories, Loan updatedLoan) {
+  private void invalidateCacheForUpdate(Long profileId, String oldState,
+      Set<String> oldCategories, Loan updatedLoan) {
     if (profileId != null) {
       loanCache.invalidateByProfileId(profileId);
     }

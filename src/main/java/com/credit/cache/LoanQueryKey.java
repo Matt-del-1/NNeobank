@@ -1,6 +1,5 @@
 package com.credit.cache;
 
-import java.util.Objects;
 import lombok.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,7 +17,7 @@ public class LoanQueryKey {
   String sort;
 
   public LoanQueryKey(Long profileId, String category, String lastName,
-                      String state, String username, Pageable pageable) {
+      String state, String username, Pageable pageable) {
     this.profileId = profileId;
     this.category = category;
     this.lastName = lastName;

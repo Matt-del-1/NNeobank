@@ -65,6 +65,7 @@ public class ProfileController {
   // Вспомогательный класс для приема данных (можно в этом же файле внизу)
   @lombok.Data
   public static class TransactionTestRequest {
+
     private com.credit.dto.ProfileDto profile;
     private java.util.List<com.credit.dto.ContactDto> contacts;
   }

@@ -1,6 +1,5 @@
 package com.credit.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Category {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
