@@ -14,11 +14,13 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoanService {
@@ -46,34 +48,34 @@ public class LoanService {
 
     Loan savedLoan = loanRepository.save(loan);
 
-    loanCache.invalidateByProfileId(profile.getId());
+    invalidateCacheForNewLoan(savedLoan);
 
     return loanMapper.toDto(savedLoan);
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findAll(Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForAll(pageable);
+    LoanQueryKey key = new LoanQueryKey(null, null, null, null, null, pageable);
 
-    // Проверяем кэш
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for ALL");
       return cached;
     }
 
-    Page<LoanDto> result = loanRepository.findAll(pageable)
-        .map(loanMapper::toDto);
-
+    Page<LoanDto> result = loanRepository.findAll(pageable).map(loanMapper::toDto);
     loanCache.put(key, result);
+
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByProfileId(Long profileId, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForProfile(profileId, pageable);
+    LoanQueryKey key = new LoanQueryKey(profileId, null, null, null, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for profileId: {}", profileId);
       return cached;
     }
 
@@ -81,16 +83,16 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByState(String state, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForState(state, pageable);
+    LoanQueryKey key = new LoanQueryKey(null, null, null, state, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for state: {}", state);
       return cached;
     }
 
@@ -98,16 +100,16 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByCategoryName(String categoryName, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForCategory(categoryName, pageable);
+    LoanQueryKey key = new LoanQueryKey(null, categoryName, null, null, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for category: {}", categoryName);
       return cached;
     }
 
@@ -115,16 +117,16 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByProfileLastName(String lastName, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForLastName(lastName, pageable);
+    LoanQueryKey key = new LoanQueryKey(null, null, lastName, null, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for lastName: {}", lastName);
       return cached;
     }
 
@@ -132,16 +134,16 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByCategoryNameAndState(String categoryName, String state, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForCategoryAndState(categoryName, state, pageable);
+    LoanQueryKey key = new LoanQueryKey(null, categoryName, null, state, null, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for category+state: {} / {}", categoryName, state);
       return cached;
     }
 
@@ -149,16 +151,16 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
   @Transactional(readOnly = true)
   public Page<LoanDto> findByUsername(String username, Pageable pageable) {
-    LoanQueryKey key = LoanCache.createKeyForUsername(username, pageable);
+    LoanQueryKey key = new LoanQueryKey(null, null, null, null, username, pageable);
 
     Page<LoanDto> cached = loanCache.get(key);
     if (cached != null) {
+      log.debug("Cache hit for username: {}", username);
       return cached;
     }
 
@@ -166,7 +168,6 @@ public class LoanService {
         .map(loanMapper::toDto);
 
     loanCache.put(key, result);
-
     return result;
   }
 
@@ -199,18 +200,21 @@ public class LoanService {
     Loan existingLoan = loanRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Loan not found"));
 
+    Long profileId = existingLoan.getProfile() != null ? existingLoan.getProfile().getId() : null;
+    String oldState = existingLoan.getCurrentState();
+    Set<String> oldCategories = existingLoan.getCategories().stream()
+        .map(Category::getName)
+        .collect(Collectors.toSet());
+
     existingLoan.setAmount(dto.getAmount());
     existingLoan.setCurrentState(dto.getCurrentState());
     existingLoan.setLastUpdate(LocalDateTime.now());
 
-    Long profileId = existingLoan.getProfile() != null ? existingLoan.getProfile().getId() : null;
+    Loan updated = loanRepository.save(existingLoan);
+    LoanDto result = loanMapper.toDto(updated);
 
-    LoanDto result = loanMapper.toDto(loanRepository.save(existingLoan));
+    invalidateCacheForUpdate(profileId, oldState, oldCategories, updated);
 
-    if (profileId != null) {
-      loanCache.invalidateByProfileId(profileId);
-    }
-    loanCache.clear();
     return result;
   }
 
@@ -220,17 +224,66 @@ public class LoanService {
         .orElseThrow(() -> new RuntimeException("Loan not found"));
 
     Long profileId = loan.getProfile() != null ? loan.getProfile().getId() : null;
+    String state = loan.getCurrentState();
+    Set<String> categories = loan.getCategories().stream()
+        .map(Category::getName)
+        .collect(Collectors.toSet());
 
     loanRepository.deleteById(id);
 
-    if (profileId != null) {
-      loanCache.invalidateByProfileId(profileId);
+    invalidateCacheForDeletedLoan(profileId, state, categories);
+  }
+
+  private void invalidateCacheForNewLoan(Loan loan) {
+    if (loan.getProfile() != null) {
+      loanCache.invalidateByProfileId(loan.getProfile().getId());
+    }
+    for (Category category : loan.getCategories()) {
+      loanCache.invalidateByCategory(category.getName());
+    }
+    if (loan.getCurrentState() != null) {
+      loanCache.invalidateByState(loan.getCurrentState());
     }
     loanCache.clear();
   }
+
+  private void invalidateCacheForUpdate(Long profileId, String oldState, 
+                                        Set<String> oldCategories, Loan updatedLoan) {
+    if (profileId != null) {
+      loanCache.invalidateByProfileId(profileId);
+    }
+
+    String newState = updatedLoan.getCurrentState();
+    if (oldState != null && !oldState.equals(newState)) {
+      loanCache.invalidateByState(oldState);
+      loanCache.invalidateByState(newState);
+    } else if (newState != null) {
+      loanCache.invalidateByState(newState);
+    }
+
+    Set<String> newCategories = updatedLoan.getCategories().stream()
+        .map(Category::getName)
+        .collect(Collectors.toSet());
+
+    oldCategories.forEach(loanCache::invalidateByCategory);
+    newCategories.forEach(loanCache::invalidateByCategory);
+  }
+
+  private void invalidateCacheForDeletedLoan(Long profileId, String state, Set<String> categories) {
+    if (profileId != null) {
+      loanCache.invalidateByProfileId(profileId);
+    }
+    if (state != null) {
+      loanCache.invalidateByState(state);
+    }
+    categories.forEach(loanCache::invalidateByCategory);
+    loanCache.clear();
+  }
+
   public void clearCache() {
     loanCache.clear();
   }
+
   public int getCacheSize() {
     return loanCache.size();
   }
