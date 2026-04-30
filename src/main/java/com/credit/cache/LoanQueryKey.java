@@ -1,5 +1,6 @@
 package com.credit.cache;
 
+import java.util.Objects;
 import lombok.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,19 @@ public class LoanQueryKey {
   int page;
   int size;
   String sort;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    LoanQueryKey that = (LoanQueryKey) o;
+    return page == that.page && size == that.size && Objects.equals(profileId, that.profileId) && Objects.equals(category, that.category) && Objects.equals(lastName, that.lastName) && Objects.equals(state, that.state) && Objects.equals(username, that.username) && Objects.equals(sort, that.sort);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(profileId, category, lastName, state, username, page, size, sort);
+  }
 
   public LoanQueryKey(Long profileId, String category, String lastName,
       String state, String username, Pageable pageable) {
