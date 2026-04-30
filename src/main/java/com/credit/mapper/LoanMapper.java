@@ -5,10 +5,15 @@ import com.credit.model.Category;
 import com.credit.model.Loan;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class LoanMapper {
+
+  private final ProfileMapper profileMapper;
+  private final CategoryMapper categoryMapper;
 
   public LoanDto toDto(Loan entity) {
     if (entity == null) {
@@ -22,16 +27,16 @@ public class LoanMapper {
     dto.setLastUpdate(entity.getLastUpdate());
 
     if (entity.getProfile() != null) {
-      dto.setProfileId(entity.getProfile().getId());
+      dto.setProfile(profileMapper.toDto(entity.getProfile()));
     }
 
-    Set<Long> categoryIds = new HashSet<>();
+    Set<com.credit.dto.CategoryDto> categories = new HashSet<>();
     if (entity.getCategories() != null) {
       for (Category category : entity.getCategories()) {
-        categoryIds.add(category.getId());
+        categories.add(categoryMapper.toDto(category));
       }
     }
-    dto.setCategoryIds(categoryIds);
+    dto.setCategories(categories);
 
     return dto;
   }

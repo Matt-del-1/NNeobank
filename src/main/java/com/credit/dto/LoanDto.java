@@ -17,6 +17,6 @@ public class LoanDto {
   private Double amount;
   private String currentState;
   private LocalDateTime lastUpdate;
-  private Long profileId;
-  private Set<Long> categoryIds;
+  private ProfileDto profile;
+  private Set<CategoryDto> categories;
 }

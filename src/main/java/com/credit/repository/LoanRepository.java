@@ -19,18 +19,30 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
   @EntityGraph(attributePaths = {"profile", "categories"})
   Page<Loan> findByProfileId(Long profileId, Pageable pageable);
 
+  @Query("SELECT l FROM Loan l "
+      + "JOIN l.profile p "
+      + "JOIN l.categories c "
+      + "WHERE l.currentState = :currentState")
   @EntityGraph(attributePaths = {"profile", "categories"})
-  Page<Loan> findByCurrentState(String currentState, Pageable pageable);
+  Page<Loan> findByCurrentState(@Param("currentState") String currentState, Pageable pageable);
 
-  @Query("SELECT l FROM Loan l JOIN l.categories c WHERE LOWER(c.name) = LOWER(:categoryName)")
+  @Query("SELECT l FROM Loan l "
+      + "JOIN l.profile p "
+      + "JOIN l.categories c "
+      + "WHERE LOWER(c.name) = LOWER(:categoryName)")
   @EntityGraph(attributePaths = {"profile", "categories"})
   Page<Loan> findByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
 
-  @Query("SELECT l FROM Loan l JOIN l.profile p WHERE LOWER(p.lastName) = LOWER(:lastName)")
+  @Query("SELECT l FROM Loan l "
+      + "JOIN l.profile p "
+      + "JOIN l.categories c "
+      + "WHERE LOWER(p.lastName) = LOWER(:lastName)")
   @EntityGraph(attributePaths = {"profile", "categories"})
   Page<Loan> findByProfileLastName(@Param("lastName") String lastName, Pageable pageable);
 
-  @Query("SELECT l FROM Loan l JOIN l.categories c "
+  @Query("SELECT l FROM Loan l "
+      + "JOIN l.profile p "
+      + "JOIN l.categories c "
       + "WHERE LOWER(c.name) = LOWER(:categoryName) AND l.currentState = :state")
   @EntityGraph(attributePaths = {"profile", "categories"})
   Page<Loan> findByCategoryNameAndState(
@@ -38,12 +50,17 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
       @Param("state") String state,
       Pageable pageable);
 
-  @Query("SELECT l FROM Loan l JOIN l.profile p JOIN p.user u WHERE u.username = :username")
+  @Query("SELECT l FROM Loan l "
+      + "JOIN l.profile p "
+      + "JOIN p.user u "
+      + "JOIN l.categories c "
+      + "WHERE u.username = :username")
   @EntityGraph(attributePaths = {"profile", "categories"})
   Page<Loan> findByUsername(@Param("username") String username, Pageable pageable);
 
   @Query(value =
       "SELECT l.* FROM loans l "
+          + "JOIN profiles p ON l.client_id = p.id "
           + "JOIN loan_categories_map lcm ON l.id = lcm.loan_id "
           + "JOIN categories c ON lcm.category_id = c.id "
           + "WHERE LOWER(c.name) = LOWER(:categoryName)",
@@ -59,6 +76,8 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
   @Query(value =
       "SELECT l.* FROM loans l "
           + "JOIN profiles p ON l.client_id = p.id "
+          + "JOIN loan_categories_map lcm ON l.id = lcm.loan_id "
+          + "JOIN categories c ON lcm.category_id = c.id "
           + "WHERE LOWER(p.last_name) = LOWER(:lastName)",
       countQuery =
           "SELECT COUNT(l.id) FROM loans l "
@@ -69,6 +88,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
   @Query(value =
       "SELECT l.* FROM loans l "
+          + "JOIN profiles p ON l.client_id = p.id "
           + "JOIN loan_categories_map lcm ON l.id = lcm.loan_id "
           + "JOIN categories c ON lcm.category_id = c.id "
           + "WHERE LOWER(c.name) = LOWER(:categoryName) AND l.current_state = :state",
@@ -87,6 +107,8 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
       "SELECT l.* FROM loans l "
           + "JOIN profiles p ON l.client_id = p.id "
           + "JOIN users u ON p.user_id = u.id "
+          + "JOIN loan_categories_map lcm ON l.id = lcm.loan_id "
+          + "JOIN categories c ON lcm.category_id = c.id "
           + "WHERE u.username = :username",
       countQuery =
           "SELECT COUNT(l.id) FROM loans l "

@@ -33,14 +33,20 @@ public class LoanService {
 
   @Transactional
   public LoanDto create(LoanDto dto) {
-    Profile profile = profileRepository.findById(dto.getProfileId())
-        .orElseThrow(
-            () -> new RuntimeException("Profile not found with ID: " + dto.getProfileId()));
+    Profile profile = null;
+    if (dto.getProfile() != null && dto.getProfile().getId() != null) {
+      profile = profileRepository.findById(dto.getProfile().getId())
+          .orElseThrow(
+              () -> new RuntimeException("Profile not found with ID: " + dto.getProfile().getId()));
+    }
 
-    Set<Category> categories = dto.getCategoryIds().stream()
-        .map(id -> categoryRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Category not found with ID: " + id)))
-        .collect(Collectors.toSet());
+    Set<Category> categories = new java.util.HashSet<>();
+    if (dto.getCategories() != null) {
+      categories = dto.getCategories().stream()
+          .map(categoryDto -> categoryRepository.findById(categoryDto.getId())
+              .orElseThrow(() -> new RuntimeException("Category not found with ID: " + categoryDto.getId())))
+          .collect(Collectors.toSet());
+    }
 
     Loan loan = loanMapper.toEntity(dto);
     loan.setProfile(profile);
