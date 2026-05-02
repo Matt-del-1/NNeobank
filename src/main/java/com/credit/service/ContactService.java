@@ -20,6 +20,11 @@ public class ContactService {
   private final ContactMapper contactMapper;
 
   @Transactional
+  public ContactDto create(ContactDto dto) {
+    return save(dto);
+  }
+
+  @Transactional
   public ContactDto save(ContactDto dto) {
     Profile profile = profileRepository.findById(dto.getProfileId())
         .orElseThrow(() -> new RuntimeException("Profile not found"));

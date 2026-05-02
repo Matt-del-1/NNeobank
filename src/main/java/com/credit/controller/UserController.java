@@ -2,6 +2,7 @@ package com.credit.controller;
 
 import com.credit.dto.UserDto;
 import com.credit.service.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping
-  public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
     return new ResponseEntity<>(userService.save(userDto), HttpStatus.CREATED);
   }
 
@@ -38,7 +39,8 @@ public class UserController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> update(@PathVariable Long id,
+      @Valid @RequestBody UserDto userDto) {
     return ResponseEntity.ok(userService.update(id, userDto));
   }
 

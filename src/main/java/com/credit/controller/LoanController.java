@@ -2,12 +2,15 @@ package com.credit.controller;
 
 import com.credit.dto.LoanDto;
 import com.credit.service.LoanService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/loans")
 @RequiredArgsConstructor
+@Validated
 public class LoanController {
 
   private final LoanService loanService;
 
   @PostMapping
-  public ResponseEntity<LoanDto> create(@RequestBody LoanDto loanDto) {
+  public ResponseEntity<LoanDto> create(@Valid @RequestBody LoanDto loanDto) {
     return new ResponseEntity<>(loanService.create(loanDto), HttpStatus.CREATED);
   }
 
@@ -45,58 +49,58 @@ public class LoanController {
 
   @GetMapping("/filter")
   public ResponseEntity<Page<LoanDto>> getByState(
-      @RequestParam String state,
+      @RequestParam @NotBlank(message = "state не может быть пустым") String state,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByState(state, pageable));
   }
 
   @GetMapping("/jpql/by-category")
   public ResponseEntity<Page<LoanDto>> getByCategoryName(
-      @RequestParam String name,
+      @RequestParam @NotBlank(message = "name не может быть пустым") String name,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByCategoryName(name, pageable));
   }
 
   @GetMapping("/jpql/by-lastname")
   public ResponseEntity<Page<LoanDto>> getByProfileLastName(
-      @RequestParam String lastName,
+      @RequestParam @NotBlank(message = "lastName не может быть пустым") String lastName,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByProfileLastName(lastName, pageable));
   }
 
   @GetMapping("/jpql/by-category-and-state")
   public ResponseEntity<Page<LoanDto>> getByCategoryNameAndState(
-      @RequestParam String category,
-      @RequestParam String state,
+      @RequestParam @NotBlank(message = "category не может быть пустым") String category,
+      @RequestParam @NotBlank(message = "state не может быть пустым") String state,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByCategoryNameAndState(category, state, pageable));
   }
 
   @GetMapping("/jpql/by-username")
   public ResponseEntity<Page<LoanDto>> getByUsername(
-      @RequestParam String username,
+      @RequestParam @NotBlank(message = "username не может быть пустым") String username,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByUsername(username, pageable));
   }
 
   @GetMapping("/native/by-category")
   public ResponseEntity<Page<LoanDto>> getByCategoryNameNative(
-      @RequestParam String name,
+      @RequestParam @NotBlank(message = "name не может быть пустым") String name,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByCategoryNameNative(name, pageable));
   }
 
   @GetMapping("/native/by-lastname")
   public ResponseEntity<Page<LoanDto>> getByProfileLastNameNative(
-      @RequestParam String lastName,
+      @RequestParam @NotBlank(message = "lastName не может быть пустым") String lastName,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByProfileLastNameNative(lastName, pageable));
   }
 
   @GetMapping("/native/by-category-and-state")
   public ResponseEntity<Page<LoanDto>> getByCategoryNameAndStateNative(
-      @RequestParam String category,
-      @RequestParam String state,
+      @RequestParam @NotBlank(message = "category не может быть пустым") String category,
+      @RequestParam @NotBlank(message = "state не может быть пустым") String state,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(
         loanService.findByCategoryNameAndStateNative(category, state, pageable));
@@ -104,7 +108,7 @@ public class LoanController {
 
   @GetMapping("/native/by-username")
   public ResponseEntity<Page<LoanDto>> getByUsernameNative(
-      @RequestParam String username,
+      @RequestParam @NotBlank(message = "username не может быть пустым") String username,
       @PageableDefault(page = 0, size = 10) Pageable pageable) {
     return ResponseEntity.ok(loanService.findByUsernameNative(username, pageable));
   }
@@ -120,9 +124,9 @@ public class LoanController {
     return ResponseEntity.ok(loanService.getCacheSize());
   }
 
-
   @PutMapping("/{id}")
-  public ResponseEntity<LoanDto> update(@PathVariable Long id, @RequestBody LoanDto loanDto) {
+  public ResponseEntity<LoanDto> update(@PathVariable Long id,
+      @Valid @RequestBody LoanDto loanDto) {
     return ResponseEntity.ok(loanService.update(id, loanDto));
   }
 

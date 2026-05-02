@@ -1,0 +1,152 @@
+2026-05-02 17:58:35 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-05-02 17:58:35 [restartedMain] INFO  com.credit.Neobank1Application - Starting Neobank1Application using Java 25.0.2 with PID 16116 (C:\Users\matt\IdeaProjects\NNeobank\target\classes started by matt in C:\Users\matt\IdeaProjects\NNeobank)
+2026-05-02 17:58:35 [restartedMain] DEBUG com.credit.Neobank1Application - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-05-02 17:58:35 [restartedMain] INFO  com.credit.Neobank1Application - No active profile set, falling back to 1 default profile: "default"
+2026-05-02 17:58:35 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-02 17:58:35 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-02 17:58:36 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-02 17:58:36 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 55 ms. Found 5 JPA repository interfaces.
+2026-05-02 17:58:36 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-02 17:58:36 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:58:36 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-02 17:58:36 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-05-02 17:58:36 [restartedMain] INFO  org.springframework.boot.web.context.servlet.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1789 ms
+2026-05-02 17:58:37 [restartedMain] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-02 17:58:37 [restartedMain] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-05-02 17:58:37 [restartedMain] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-02 17:58:37 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-02 17:58:37 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@42ab8c1
+2026-05-02 17:58:37 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-02 17:58:37 [restartedMain] INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/neobank]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: neobank/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-02 17:58:38 [restartedMain] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-02 17:58:38 [restartedMain] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 17:58:39 [restartedMain] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-02 17:58:39 [restartedMain] WARN  org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-02 17:58:40 [restartedMain] INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-05-02 17:58:40 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:58:40 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-02 17:58:40 [restartedMain] INFO  com.credit.Neobank1Application - Started Neobank1Application in 5.75 seconds (process running for 6.556)
+2026-05-02 17:58:40 [RMI TCP Connection(4)-100.127.255.253] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-02 17:58:40 [RMI TCP Connection(4)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-02 17:58:40 [RMI TCP Connection(4)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-05-02 17:58:48 [SpringApplicationShutdownHook] INFO  org.springframework.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-02 17:58:48 [tomcat-shutdown] INFO  org.springframework.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-02 17:58:48 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 17:58:48 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-02 17:58:48 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-02 17:58:51 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-05-02 17:58:51 [restartedMain] INFO  com.credit.Neobank1Application - Starting Neobank1Application using Java 25.0.2 with PID 4320 (C:\Users\matt\IdeaProjects\NNeobank\target\classes started by matt in C:\Users\matt\IdeaProjects\NNeobank)
+2026-05-02 17:58:51 [restartedMain] DEBUG com.credit.Neobank1Application - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-05-02 17:58:51 [restartedMain] INFO  com.credit.Neobank1Application - No active profile set, falling back to 1 default profile: "default"
+2026-05-02 17:58:51 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-02 17:58:51 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-02 17:58:52 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-02 17:58:52 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 52 ms. Found 5 JPA repository interfaces.
+2026-05-02 17:58:52 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-02 17:58:52 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:58:52 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-02 17:58:52 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-05-02 17:58:52 [restartedMain] INFO  org.springframework.boot.web.context.servlet.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1335 ms
+2026-05-02 17:58:52 [restartedMain] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-02 17:58:53 [restartedMain] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-05-02 17:58:53 [restartedMain] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-02 17:58:53 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-02 17:58:53 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@760f37eb
+2026-05-02 17:58:53 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-02 17:58:53 [restartedMain] INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/neobank]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: neobank/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-02 17:58:54 [restartedMain] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-02 17:58:54 [restartedMain] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 17:58:54 [restartedMain] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-02 17:58:55 [restartedMain] WARN  org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-02 17:58:55 [restartedMain] INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-05-02 17:58:56 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:58:56 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-02 17:58:56 [restartedMain] INFO  com.credit.Neobank1Application - Started Neobank1Application in 5.191 seconds (process running for 6.454)
+2026-05-02 17:58:56 [RMI TCP Connection(1)-100.127.255.253] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-02 17:58:56 [RMI TCP Connection(1)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-02 17:58:56 [RMI TCP Connection(1)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2026-05-02 17:59:03 [SpringApplicationShutdownHook] INFO  org.springframework.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-02 17:59:03 [tomcat-shutdown] INFO  org.springframework.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-02 17:59:03 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 17:59:03 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-02 17:59:03 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-02 17:59:25 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 9.0.1.Final
+2026-05-02 17:59:25 [restartedMain] INFO  com.credit.Neobank1Application - Starting Neobank1Application using Java 25.0.2 with PID 11800 (C:\Users\matt\IdeaProjects\NNeobank\target\classes started by matt in C:\Users\matt\IdeaProjects\NNeobank)
+2026-05-02 17:59:25 [restartedMain] DEBUG com.credit.Neobank1Application - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-05-02 17:59:25 [restartedMain] INFO  com.credit.Neobank1Application - No active profile set, falling back to 1 default profile: "default"
+2026-05-02 17:59:25 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-02 17:59:25 [restartedMain] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-02 17:59:26 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-02 17:59:27 [restartedMain] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53 ms. Found 5 JPA repository interfaces.
+2026-05-02 17:59:27 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-02 17:59:27 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:59:27 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-02 17:59:27 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-05-02 17:59:27 [restartedMain] INFO  org.springframework.boot.web.context.servlet.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1699 ms
+2026-05-02 17:59:27 [restartedMain] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-05-02 17:59:27 [restartedMain] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-05-02 17:59:28 [restartedMain] INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-02 17:59:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-02 17:59:28 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f0af6bd
+2026-05-02 17:59:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-02 17:59:28 [restartedMain] INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/neobank]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: neobank/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-02 17:59:29 [restartedMain] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-02 17:59:29 [restartedMain] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 17:59:29 [restartedMain] INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-02 17:59:30 [restartedMain] WARN  org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-02 17:59:31 [restartedMain] INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-05-02 17:59:31 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-02 17:59:31 [restartedMain] INFO  org.springframework.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-02 17:59:31 [restartedMain] INFO  com.credit.Neobank1Application - Started Neobank1Application in 5.912 seconds (process running for 6.682)
+2026-05-02 17:59:31 [RMI TCP Connection(2)-100.127.255.253] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-02 17:59:31 [RMI TCP Connection(2)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-02 17:59:31 [RMI TCP Connection(2)-100.127.255.253] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-05-02 17:59:42 [http-nio-8080-exec-4] WARN  com.credit.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
+2026-05-02 17:59:42 [http-nio-8080-exec-4] WARN  org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.credit.dto.LoanDto> com.credit.controller.LoanController.create(com.credit.dto.LoanDto): [Field error in object 'loanDto' on field 'amount': rejected value [-5000.0]; codes [Positive.loanDto.amount,Positive.amount,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loanDto.amount,amount]; arguments []; default message [amount]]; default message [amount должен быть положительным]] ]
+2026-05-02 17:59:58 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.password,u1_0.username from users u1_0
+2026-05-02 17:59:58 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.first_name,p1_0.last_name,p1_0.middle_name,u1_0.id,u1_0.password,u1_0.username from profiles p1_0 left join users u1_0 on u1_0.id=p1_0.user_id where p1_0.user_id=?
+2026-05-02 17:59:58 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.first_name,p1_0.last_name,p1_0.middle_name,u1_0.id,u1_0.password,u1_0.username from profiles p1_0 left join users u1_0 on u1_0.id=p1_0.user_id where p1_0.user_id=?
+2026-05-02 17:59:58 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.first_name,p1_0.last_name,p1_0.middle_name,u1_0.id,u1_0.password,u1_0.username from profiles p1_0 left join users u1_0 on u1_0.id=p1_0.user_id where p1_0.user_id=?
+2026-05-02 17:59:58 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.first_name,p1_0.last_name,p1_0.middle_name,u1_0.id,u1_0.password,u1_0.username from profiles p1_0 left join users u1_0 on u1_0.id=p1_0.user_id where p1_0.user_id=?
+2026-05-02 18:00:13 [http-nio-8080-exec-5] WARN  org.hibernate.orm.query - HHH90003004: firstResult/maxResults specified with collection fetch; applying in memory
+2026-05-02 18:00:13 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select l1_0.id,l1_0.amount,c2_0.loan_id,c2_1.id,c2_1.name,c2_1.rate,l1_0.current_state,l1_0.last_update,p1_0.id,p1_0.first_name,p1_0.last_name,p1_0.middle_name,p1_0.user_id from loans l1_0 join profiles p1_0 on p1_0.id=l1_0.client_id join loan_categories_map c1_0 on l1_0.id=c1_0.loan_id join categories c1_1 on c1_1.id=c1_0.category_id left join loan_categories_map c2_0 on l1_0.id=c2_0.loan_id left join categories c2_1 on c2_1.id=c2_0.category_id where lower(c1_1.name)=lower(?) and l1_0.current_state=?
+2026-05-02 18:00:41 [http-nio-8080-exec-7] WARN  com.credit.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
+2026-05-02 18:00:41 [http-nio-8080-exec-7] WARN  org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.credit.dto.LoanDto> com.credit.controller.LoanController.create(com.credit.dto.LoanDto): [Field error in object 'loanDto' on field 'amount': rejected value [-5000.0]; codes [Positive.loanDto.amount,Positive.amount,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loanDto.amount,amount]; arguments []; default message [amount]]; default message [amount должен быть положительным]] ]
+2026-05-02 18:01:46 [SpringApplicationShutdownHook] INFO  org.springframework.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-02 18:01:46 [tomcat-shutdown] INFO  org.springframework.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-02 18:01:46 [SpringApplicationShutdownHook] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-02 18:01:46 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-02 18:01:46 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

@@ -2,6 +2,7 @@ package com.credit.controller;
 
 import com.credit.dto.CategoryDto;
 import com.credit.service.CategoryService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,7 +24,7 @@ public class CategoryController {
   private final CategoryService categoryService;
 
   @PostMapping
-  public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
+  public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto categoryDto) {
     return new ResponseEntity<>(categoryService.create(categoryDto), HttpStatus.CREATED);
   }
 
@@ -40,7 +40,7 @@ public class CategoryController {
 
   @PutMapping("/{id}")
   public ResponseEntity<CategoryDto> update(@PathVariable Long id,
-      @RequestBody CategoryDto categoryDto) {
+      @Valid @RequestBody CategoryDto categoryDto) {
     return ResponseEntity.ok(categoryService.update(id, categoryDto));
   }
 

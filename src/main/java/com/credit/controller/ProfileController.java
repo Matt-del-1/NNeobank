@@ -2,6 +2,7 @@ package com.credit.controller;
 
 import com.credit.dto.ProfileDto;
 import com.credit.service.ProfileService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,7 @@ public class ProfileController {
   private final ProfileService profileService;
 
   @PostMapping
-  public ResponseEntity<ProfileDto> create(@RequestBody ProfileDto profileDto) {
-    // Здесь раньше был .save(), теперь .create()
+  public ResponseEntity<ProfileDto> create(@Valid @RequestBody ProfileDto profileDto) {
     return new ResponseEntity<>(profileService.create(profileDto), HttpStatus.CREATED);
   }
 
@@ -45,7 +45,7 @@ public class ProfileController {
 
   @PutMapping("/{id}")
   public ResponseEntity<ProfileDto> update(@PathVariable Long id,
-      @RequestBody ProfileDto profileDto) {
+      @Valid @RequestBody ProfileDto profileDto) {
     return ResponseEntity.ok(profileService.update(id, profileDto));
   }
 
@@ -54,19 +54,21 @@ public class ProfileController {
     profileService.deleteById(id);
     return ResponseEntity.noContent().build();
   }
-  // В ProfileController.java
 
   @PostMapping("/test-transaction")
-  public ResponseEntity<String> testTransaction(@RequestBody TransactionTestRequest request) {
+  public ResponseEntity<String> testTransaction(@Valid @RequestBody TransactionTestRequest request) {
     profileService.saveFullProfileDemo(request.getProfile(), request.getContacts());
     return ResponseEntity.ok("Всё сохранено успешно (транзакция завершена)");
   }
 
-  // Вспомогательный класс для приема данных (можно в этом же файле внизу)
   @lombok.Data
   public static class TransactionTestRequest {
 
+    @jakarta.validation.Valid
+    @jakarta.validation.constraints.NotNull(message = "profile обязателен")
     private com.credit.dto.ProfileDto profile;
+
+    @jakarta.validation.Valid
     private java.util.List<com.credit.dto.ContactDto> contacts;
   }
 }

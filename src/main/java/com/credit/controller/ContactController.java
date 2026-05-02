@@ -2,6 +2,7 @@ package com.credit.controller;
 
 import com.credit.dto.ContactDto;
 import com.credit.service.ContactService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class ContactController {
   private final ContactService contactService;
 
   @PostMapping
-  public ResponseEntity<ContactDto> create(@RequestBody ContactDto contactDto) {
-    return new ResponseEntity<>(contactService.save(contactDto), HttpStatus.CREATED);
+  public ResponseEntity<ContactDto> create(@Valid @RequestBody ContactDto contactDto) {
+    return new ResponseEntity<>(contactService.create(contactDto), HttpStatus.CREATED);
   }
 
   @GetMapping
@@ -37,14 +38,9 @@ public class ContactController {
     return ResponseEntity.ok(contactService.findById(id));
   }
 
-  @GetMapping("/profile/{profileId}")
-  public ResponseEntity<List<ContactDto>> getByProfile(@PathVariable Long profileId) {
-    return ResponseEntity.ok(contactService.findByProfileId(profileId));
-  }
-
   @PutMapping("/{id}")
   public ResponseEntity<ContactDto> update(@PathVariable Long id,
-      @RequestBody ContactDto contactDto) {
+      @Valid @RequestBody ContactDto contactDto) {
     return ResponseEntity.ok(contactService.update(id, contactDto));
   }
 
