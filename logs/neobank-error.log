@@ -1,2 +1,0 @@
-2026-05-04 09:30:33 [http-nio-8080-exec-3] ERROR com.credit.aspect.LoggingAspect - Exception in service layer: NotFoundException — User not found
-2026-05-04 09:33:22 [http-nio-8080-exec-9] ERROR com.credit.aspect.LoggingAspect - Exception in service layer: NotFoundException — User not found
