@@ -1,6 +1,7 @@
 package com.credit.service;
 
 import com.credit.dto.ContactDto;
+import com.credit.exception.NotFoundException;
 import com.credit.mapper.ContactMapper;
 import com.credit.model.Contact;
 import com.credit.model.Profile;
@@ -27,7 +28,7 @@ public class ContactService {
   @Transactional
   public ContactDto save(ContactDto dto) {
     Profile profile = profileRepository.findById(dto.getProfileId())
-        .orElseThrow(() -> new RuntimeException("Profile not found"));
+        .orElseThrow(() -> new NotFoundException("Profile not found"));
 
     Contact contact = contactMapper.toEntity(dto);
     contact.setProfile(profile);
@@ -39,7 +40,7 @@ public class ContactService {
   public ContactDto findById(Long id) {
     return contactRepository.findById(id)
         .map(contactMapper::toDto)
-        .orElseThrow(() -> new RuntimeException("Contact not found"));
+        .orElseThrow(() -> new NotFoundException("Contact not found"));
   }
 
   @Transactional(readOnly = true)
@@ -59,7 +60,7 @@ public class ContactService {
   @Transactional
   public ContactDto update(Long id, ContactDto dto) {
     Contact existingContact = contactRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Contact not found"));
+        .orElseThrow(() -> new NotFoundException("Contact not found"));
 
     existingContact.setPhone(dto.getPhone());
     existingContact.setEmail(dto.getEmail());

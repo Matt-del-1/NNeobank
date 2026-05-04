@@ -2,6 +2,8 @@ package com.credit.service;
 
 import com.credit.dto.ContactDto;
 import com.credit.dto.ProfileDto;
+import com.credit.exception.BusinessException;
+import com.credit.exception.NotFoundException;
 import com.credit.mapper.ContactMapper;
 import com.credit.mapper.ProfileMapper;
 import com.credit.model.Contact;
@@ -28,7 +30,7 @@ public class ProfileService {
   @Transactional
   public ProfileDto create(ProfileDto dto) {
     User user = userRepository.findById(dto.getUserId())
-        .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
+        .orElseThrow(() -> new NotFoundException("User not found with ID: " + dto.getUserId()));
 
     Profile profile = profileMapper.toEntity(dto);
     profile.setUser(user);
@@ -40,14 +42,14 @@ public class ProfileService {
   public ProfileDto findById(Long id) {
     return profileRepository.findById(id)
         .map(profileMapper::toDto)
-        .orElseThrow(() -> new RuntimeException("Profile not found with ID: " + id));
+        .orElseThrow(() -> new NotFoundException("Profile not found with ID: " + id));
   }
 
   @Transactional(readOnly = true)
   public ProfileDto findByUserId(Long userId) {
     return profileRepository.findByUserId(userId)
         .map(profileMapper::toDto)
-        .orElseThrow(() -> new RuntimeException("Profile not found for userId: " + userId));
+        .orElseThrow(() -> new NotFoundException("Profile not found for userId: " + userId));
   }
 
   @Transactional(readOnly = true)
@@ -60,7 +62,7 @@ public class ProfileService {
   @Transactional
   public ProfileDto update(Long id, ProfileDto dto) {
     Profile existingProfile = profileRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Profile not found"));
+        .orElseThrow(() -> new NotFoundException("Profile not found"));
 
     existingProfile.setFirstName(dto.getFirstName());
     existingProfile.setLastName(dto.getLastName());
@@ -77,7 +79,7 @@ public class ProfileService {
   @Transactional
   public void saveFullProfileDemo(ProfileDto profileDto, List<ContactDto> contactDtos) {
     User user = userRepository.findById(profileDto.getUserId())
-        .orElseThrow(() -> new RuntimeException(
+        .orElseThrow(() -> new NotFoundException(
             "Ошибка: Сначала создайте User с ID " + profileDto.getUserId()));
 
     Profile profile = profileMapper.toEntity(profileDto);
@@ -88,7 +90,7 @@ public class ProfileService {
     for (ContactDto contactDto : contactDtos) {
       if (contactDto.getEmail() != null && contactDto.getEmail().contains("error")) {
         System.out.println("Error, rollback...");
-        throw new RuntimeException("error to rollback");
+        throw new BusinessException("error to rollback");
       }
 
       Contact contact = contactMapper.toEntity(contactDto);

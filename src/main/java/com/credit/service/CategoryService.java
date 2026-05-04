@@ -1,6 +1,8 @@
 package com.credit.service;
 
 import com.credit.dto.CategoryDto;
+import com.credit.exception.BusinessException;
+import com.credit.exception.NotFoundException;
 import com.credit.mapper.CategoryMapper;
 import com.credit.model.Category;
 import com.credit.repository.CategoryRepository;
@@ -26,7 +28,7 @@ public class CategoryService {
   public CategoryDto findById(Long id) {
     return categoryRepository.findById(id)
         .map(categoryMapper::toDto)
-        .orElseThrow(() -> new RuntimeException("Category not found with ID: " + id));
+        .orElseThrow(() -> new NotFoundException("Category not found with ID: " + id));
   }
 
   @Transactional(readOnly = true)
@@ -39,7 +41,7 @@ public class CategoryService {
   @Transactional
   public CategoryDto update(Long id, CategoryDto dto) {
     Category existingCategory = categoryRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Category not found"));
+        .orElseThrow(() -> new NotFoundException("Category not found"));
 
     existingCategory.setName(dto.getName());
     existingCategory.setRate(dto.getRate());
@@ -56,7 +58,7 @@ public class CategoryService {
     for (CategoryDto dto : dtos) {
 
       if (dto.getRate() != null && dto.getRate() < 0) {
-        throw new RuntimeException("Rate cannot be negative!");
+        throw new BusinessException("Rate cannot be negative!");
       }
 
       Category category = categoryMapper.toEntity(dto);

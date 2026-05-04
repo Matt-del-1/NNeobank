@@ -1,6 +1,7 @@
 package com.credit.service;
 
 import com.credit.dto.UserDto;
+import com.credit.exception.NotFoundException;
 import com.credit.mapper.UserMapper;
 import com.credit.model.User;
 import com.credit.repository.UserRepository;
@@ -26,7 +27,7 @@ public class UserService {
   public UserDto findById(Long id) {
     return userRepository.findById(id)
         .map(userMapper::toDto)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(() -> new NotFoundException("User not found"));
   }
 
   @Transactional(readOnly = true)
@@ -39,7 +40,7 @@ public class UserService {
   @Transactional
   public UserDto update(Long id, UserDto dto) {
     User existingUser = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(() -> new NotFoundException("User not found"));
 
     existingUser.setUsername(dto.getUsername());
     if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {

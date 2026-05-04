@@ -3,6 +3,7 @@ package com.credit.service;
 import com.credit.cache.LoanCache;
 import com.credit.cache.LoanQueryKey;
 import com.credit.dto.LoanDto;
+import com.credit.exception.NotFoundException;
 import com.credit.mapper.LoanMapper;
 import com.credit.model.Category;
 import com.credit.model.Loan;
@@ -37,14 +38,14 @@ public class LoanService {
     if (dto.getProfile() != null && dto.getProfile().getId() != null) {
       profile = profileRepository.findById(dto.getProfile().getId())
           .orElseThrow(
-              () -> new RuntimeException("Profile not found with ID: " + dto.getProfile().getId()));
+              () -> new NotFoundException("Profile not found with ID: " + dto.getProfile().getId()));
     }
 
     Set<Category> categories = new java.util.HashSet<>();
     if (dto.getCategories() != null) {
       categories = dto.getCategories().stream()
           .map(categoryDto -> categoryRepository.findById(categoryDto.getId())
-              .orElseThrow(() -> new RuntimeException("Category not found with ID: " + categoryDto.getId())))
+              .orElseThrow(() -> new NotFoundException("Category not found with ID: " + categoryDto.getId())))
           .collect(Collectors.toSet());
     }
 
@@ -200,7 +201,7 @@ public class LoanService {
   @Transactional
   public LoanDto update(Long id, LoanDto dto) {
     Loan existingLoan = loanRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Loan not found"));
+        .orElseThrow(() -> new NotFoundException("Loan not found"));
 
     Long profileId = existingLoan.getProfile() != null ? existingLoan.getProfile().getId() : null;
     String oldState = existingLoan.getCurrentState();
@@ -223,7 +224,7 @@ public class LoanService {
   @Transactional
   public void deleteById(Long id) {
     Loan loan = loanRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Loan not found"));
+        .orElseThrow(() -> new NotFoundException("Loan not found"));
 
     Long profileId = loan.getProfile() != null ? loan.getProfile().getId() : null;
     String state = loan.getCurrentState();
