@@ -1,19 +1,22 @@
-2026-05-04 10:07:41.659 [http-nio-8080-exec-6] WARN  c.c.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
-2026-05-04 10:07:46.502 [http-nio-8080-exec-7] WARN  c.c.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
-2026-05-04 10:07:47.780 [http-nio-8080-exec-3] WARN  c.c.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
-2026-05-04 10:07:48.875 [http-nio-8080-exec-2] WARN  c.c.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
-2026-05-04 10:07:50.191 [http-nio-8080-exec-5] WARN  c.c.exception.GlobalExceptionHandler - Validation failed for /api/loans: [ValidationErrorDetail(field=amount, rejectedValue=-5000.0, message=amount должен быть положительным)]
-2026-05-04 10:07:54.637 [http-nio-8080-exec-6] ERROR com.credit.aspect.LoggingAspect - Exception in service layer: NotFoundException — User not found
-2026-05-04 10:07:54.638 [http-nio-8080-exec-6] WARN  com.credit.aspect.LoggingAspect - xxx UserService.findById() failed after 83 ms: NotFoundException — User not found
-2026-05-04 10:07:54.643 [http-nio-8080-exec-6] WARN  c.c.exception.GlobalExceptionHandler - Not found: User not found (path=/api/users/999)
-2026-05-04 10:07:55.915 [http-nio-8080-exec-8] ERROR com.credit.aspect.LoggingAspect - Exception in service layer: NotFoundException — User not found
-2026-05-04 10:07:55.915 [http-nio-8080-exec-8] WARN  com.credit.aspect.LoggingAspect - xxx UserService.findById() failed after 2 ms: NotFoundException — User not found
-2026-05-04 10:07:55.916 [http-nio-8080-exec-8] WARN  c.c.exception.GlobalExceptionHandler - Not found: User not found (path=/api/users/999)
-2026-05-04 10:07:57.043 [http-nio-8080-exec-7] ERROR com.credit.aspect.LoggingAspect - Exception in service layer: NotFoundException — User not found
-2026-05-04 10:07:57.044 [http-nio-8080-exec-7] WARN  com.credit.aspect.LoggingAspect - xxx UserService.findById() failed after 3 ms: NotFoundException — User not found
-2026-05-04 10:07:57.045 [http-nio-8080-exec-7] WARN  c.c.exception.GlobalExceptionHandler - Not found: User not found (path=/api/users/999)
-2026-05-04 10:09:23.497 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2026-05-04 10:09:23.509 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
-2026-05-04 10:09:23.515 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-05-04 10:09:23.517 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2026-05-04 10:09:23.521 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-04 13:49:57.597 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-04 13:49:57.602 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-04 13:49:57.603 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-05-04 13:49:57.672 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2541 ms
+2026-05-04 13:49:58.954 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-04 13:49:59.006 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-04 13:49:59.393 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
+2026-05-04 13:49:59.395 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-04 13:50:01.223 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-04 13:50:01.395 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-04 13:50:02.839 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-04 13:50:03.699 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-05-04 13:50:03.775 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-04 13:50:03.799 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-04 13:50:03.808 [main] INFO  com.credit.Neobank1Application - Started Neobank1Application in 9.48 seconds (process running for 10.672)
+2026-05-04 13:50:03.814 [main] WARN  o.s.c.events.SpringDocAppInitializer - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-04 13:50:03.815 [main] WARN  o.s.c.events.SpringDocAppInitializer - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-04 13:50:04.175 [RMI TCP Connection(2)-100.127.255.253] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-04 13:50:04.175 [RMI TCP Connection(2)-100.127.255.253] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-04 13:50:04.178 [RMI TCP Connection(2)-100.127.255.253] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-05-04 13:51:08.686 [http-nio-8080-exec-1] WARN  com.credit.aspect.LoggingAspect - xxx UserService.findById() failed after 130 ms: NotFoundException — User not found
+2026-05-04 13:51:08.703 [http-nio-8080-exec-1] WARN  c.c.exception.GlobalExceptionHandler - Not found: User not found (path=/api/users/999)

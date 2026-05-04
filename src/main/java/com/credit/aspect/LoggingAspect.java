@@ -25,11 +25,6 @@ public class LoggingAspect {
     String className = signature.getDeclaringType().getSimpleName();
     String methodName = signature.getName();
 
-    if (log.isDebugEnabled()) {
-      log.debug("--> {}.{}() called with args={}",
-          className, methodName, Arrays.toString(joinPoint.getArgs()));
-    }
-
     long start = System.currentTimeMillis();
     try {
       Object result = joinPoint.proceed();
@@ -43,11 +38,5 @@ public class LoggingAspect {
           ex.getClass().getSimpleName(), ex.getMessage());
       throw ex;
     }
-  }
-
-  @AfterThrowing(pointcut = "serviceLayer()", throwing = "ex")
-  public void logException(Throwable ex) {
-    log.error("Exception in service layer: {} — {}",
-        ex.getClass().getSimpleName(), ex.getMessage());
   }
 }
