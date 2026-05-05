@@ -12,6 +12,9 @@ import com.credit.repository.CategoryRepository;
 import com.credit.repository.LoanRepository;
 import com.credit.repository.ProfileRepository;
 import java.time.LocalDateTime;
+import com.credit.exception.BusinessException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -290,4 +293,59 @@ public class LoanService {
   public int getCacheSize() {
     return loanCache.size();
   }
+  @Transactional
+  public List<LoanDto> createBulk(List<LoanDto> dtos) {
+    log.info("BULK: {} loans to save", dtos.size());
+
+    List<LoanDto> result = dtos.stream()
+        .map(dto -> {
+          Loan entity = validateAndBuildLoan(dto);
+          Loan saved = loanRepository.saveAndFlush(entity);
+          log.info("BULK: saved loan id={}", saved.getId());
+          return loanMapper.toDto(saved);
+        })
+        .toList();
+
+    result.stream()
+        .findFirst()
+        .flatMap(dto -> Optional.ofNullable(dto.getProfile()))
+        .map(profileDto -> profileDto.getId())
+        .ifPresent(loanCache::invalidateByProfileId);
+
+    loanCache.clear();
+    log.info("BULK: saved {} loans", result.size());
+    return result;
+  }
+
+  private Loan validateAndBuildLoan(LoanDto dto) {
+    if (dto.getAmount() == null || dto.getAmount() <= 0) {
+      throw new BusinessException("amount должен быть положительным");
+    }
+    if ("FAIL".equalsIgnoreCase(dto.getCurrentState())) {
+      throw new BusinessException(
+          "Триггер сбоя: currentState=FAIL — проверка отката транзакции");
+    }
+
+    Profile profile = Optional.ofNullable(dto.getProfile())
+        .map(p -> Optional.ofNullable(p.getId())
+            .flatMap(profileRepository::findById)
+            .orElseThrow(() -> new NotFoundException(
+                "Profile not found with ID: " + p.getId())))
+        .orElse(null);
+
+    Set<Category> categories = Optional.ofNullable(dto.getCategories())
+        .orElse(java.util.Collections.emptySet())
+        .stream()
+        .map(catDto -> categoryRepository.findById(catDto.getId())
+            .orElseThrow(() -> new NotFoundException(
+                "Category not found with ID: " + catDto.getId())))
+        .collect(Collectors.toSet());
+
+    Loan loan = loanMapper.toEntity(dto);
+    loan.setProfile(profile);
+    loan.setCategories(categories);
+    loan.setLastUpdate(LocalDateTime.now());
+    return loan;
+  }
+
 }

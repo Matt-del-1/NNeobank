@@ -1,6 +1,7 @@
 package com.credit.controller;
 
 import com.credit.dto.LoanDto;
+import java.util.List;
 import com.credit.service.LoanService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -134,5 +135,9 @@ public class LoanController {
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     loanService.deleteById(id);
     return ResponseEntity.noContent().build();
+  }
+  @PostMapping("/bulk")
+  public ResponseEntity<List<LoanDto>> createBulk(@Valid @RequestBody List<LoanDto> dtos) {
+    return new ResponseEntity<>(loanService.createBulk(dtos), HttpStatus.CREATED);
   }
 }
