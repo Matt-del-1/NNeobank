@@ -137,7 +137,7 @@ public class LoanController {
     return ResponseEntity.noContent().build();
   }
   @PostMapping("/bulk")
-  public ResponseEntity<List<LoanDto>> createBulk(@Valid @RequestBody List<LoanDto> dtos) {
+  public ResponseEntity<List<LoanDto>> createBulk(@RequestBody List<LoanDto> dtos) {
     return new ResponseEntity<>(loanService.createBulk(dtos), HttpStatus.CREATED);
   }
 }

@@ -49,8 +49,6 @@ class LoanServiceQueryTest {
 
   private final Pageable pageable = PageRequest.of(0, 10);
 
-  // ---------------- helpers ----------------
-
   private Loan loanFixture() {
     Set<Category> cats = new HashSet<>();
     cats.add(Category.builder().id(1L).name("M").build());
@@ -62,10 +60,6 @@ class LoanServiceQueryTest {
   private Page<Loan> onePageOfLoans() {
     return new PageImpl<>(List.of(loanFixture()));
   }
-
-  // =========================================================
-  //                       findAll
-  // =========================================================
 
   @Test
   @DisplayName("findAll: cache miss — поход в репозиторий + put в кэш")
@@ -95,10 +89,6 @@ class LoanServiceQueryTest {
     verify(loanCache, never()).put(any(), any());
   }
 
-  // =========================================================
-  //                    findByProfileId
-  // =========================================================
-
   @Test
   @DisplayName("findByProfileId: cache miss — поход в репозиторий")
   void findByProfileId_miss() {
@@ -125,10 +115,6 @@ class LoanServiceQueryTest {
     verify(loanRepository, never()).findByProfileId(any(), any());
   }
 
-  // =========================================================
-  //                       findByState
-  // =========================================================
-
   @Test
   @DisplayName("findByState: cache miss — поход в репозиторий")
   void findByState_miss() {
@@ -152,10 +138,6 @@ class LoanServiceQueryTest {
 
     verify(loanRepository, never()).findByCurrentState(any(), any());
   }
-
-  // =========================================================
-  //                  findByCategoryName
-  // =========================================================
 
   @Test
   @DisplayName("findByCategoryName: cache miss")
@@ -181,10 +163,6 @@ class LoanServiceQueryTest {
     verify(loanRepository, never()).findByCategoryName(any(), any());
   }
 
-  // =========================================================
-  //                findByProfileLastName
-  // =========================================================
-
   @Test
   @DisplayName("findByProfileLastName: cache miss")
   void findByProfileLastName_miss() {
@@ -207,10 +185,6 @@ class LoanServiceQueryTest {
 
     verify(loanRepository, never()).findByProfileLastName(any(), any());
   }
-
-  // =========================================================
-  //              findByCategoryNameAndState
-  // =========================================================
 
   @Test
   @DisplayName("findByCategoryNameAndState: cache miss")
@@ -236,10 +210,6 @@ class LoanServiceQueryTest {
     verify(loanRepository, never()).findByCategoryNameAndState(any(), any(), any());
   }
 
-  // =========================================================
-  //                    findByUsername
-  // =========================================================
-
   @Test
   @DisplayName("findByUsername: cache miss")
   void findByUsername_miss() {
@@ -262,10 +232,6 @@ class LoanServiceQueryTest {
 
     verify(loanRepository, never()).findByUsername(any(), any());
   }
-
-  // =========================================================
-  //                   native find* (без кэша)
-  // =========================================================
 
   @Test
   @DisplayName("findByCategoryNameNative: всегда идёт в репозиторий, кэш не используется")
@@ -319,10 +285,6 @@ class LoanServiceQueryTest {
     verify(loanCache, never()).get(any());
   }
 
-  // =========================================================
-  //                clearCache / getCacheSize
-  // =========================================================
-
   @Test
   @DisplayName("clearCache: делегирует loanCache.clear()")
   void clearCache_delegates() {
@@ -340,10 +302,6 @@ class LoanServiceQueryTest {
     assertEquals(42, size);
     verify(loanCache).size();
   }
-
-  // =========================================================
-  //         Вспомогательная проверка cache key
-  // =========================================================
 
   @Test
   @DisplayName("findAll: ключ кэша строится с null-полями кроме pageable")

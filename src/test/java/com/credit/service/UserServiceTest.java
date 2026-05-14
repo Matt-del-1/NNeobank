@@ -36,8 +36,6 @@ class UserServiceTest {
   @InjectMocks
   private UserService userService;
 
-  // ---------------- save ----------------
-
   @Test
   @DisplayName("save: пользователь сохраняется и маппится в DTO")
   void save_returnsDto() {
@@ -56,8 +54,6 @@ class UserServiceTest {
     assertEquals("ivan", result.getUsername());
     verify(userRepository).save(entity);
   }
-
-  // ---------------- findById ----------------
 
   @Test
   @DisplayName("findById: пользователь найден — возвращается DTO")
@@ -82,8 +78,6 @@ class UserServiceTest {
     assertThrows(NotFoundException.class, () -> userService.findById(42L));
     verify(userMapper, never()).toDto(any(User.class));
   }
-
-  // ---------------- findAll ----------------
 
   @Test
   @DisplayName("findAll: возвращается список DTO")
@@ -111,8 +105,6 @@ class UserServiceTest {
     assertNotNull(result);
     assertEquals(0, result.size());
   }
-
-  // ---------------- update ----------------
 
   @Test
   @DisplayName("update: данные пользователя обновляются (с новым паролем)")
@@ -180,8 +172,6 @@ class UserServiceTest {
         () -> userService.update(99L, UserDto.builder().username("x").build()));
     verify(userRepository, never()).save(any());
   }
-
-  // ---------------- deleteById ----------------
 
   @Test
   @DisplayName("deleteById: вызывает репозиторий")

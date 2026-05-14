@@ -31,7 +31,7 @@
       <fileNamePattern>${LOG_DIR}/archive/application-%d{yyyy-MM-dd}.%i.log.gz
       </fileNamePattern>
 
-      <maxFileSize>4KB</maxFileSize>
+      <maxFileSize>1MB</maxFileSize>
       <maxHistory>30</maxHistory>
       <totalSizeCap>1GB</totalSizeCap>
     </rollingPolicy>

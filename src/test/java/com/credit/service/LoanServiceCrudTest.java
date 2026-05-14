@@ -55,8 +55,6 @@ class LoanServiceCrudTest {
     category = Category.builder().id(1L).name("Mortgage").rate(7.5f).build();
   }
 
-  // ---------------- helpers ----------------
-
   private LoanDto buildDto(Double amount, String state) {
     return LoanDto.builder()
         .amount(amount).currentState(state)
@@ -71,10 +69,6 @@ class LoanServiceCrudTest {
     return Loan.builder().id(id).amount(1000.0).currentState(state)
         .profile(profile).categories(cats).build();
   }
-
-  // =========================================================
-  //                       create
-  // =========================================================
 
   @Test
   @DisplayName("create: валидный DTO — займ сохраняется, кэш чистится")
@@ -173,10 +167,6 @@ class LoanServiceCrudTest {
     assertThrows(NotFoundException.class, () -> loanService.create(input));
     verify(loanRepository, never()).save(any());
   }
-
-  // =========================================================
-  //                       update
-  // =========================================================
 
   @Test
   @DisplayName("update: state меняется — старый и новый state инвалидируются")
@@ -285,10 +275,6 @@ class LoanServiceCrudTest {
         () -> loanService.update(99L, LoanDto.builder().amount(1.0).currentState("X").build()));
     verify(loanRepository, never()).save(any());
   }
-
-  // =========================================================
-  //                       deleteById
-  // =========================================================
 
   @Test
   @DisplayName("deleteById: всё заполнено — все инвалидации вызваны")

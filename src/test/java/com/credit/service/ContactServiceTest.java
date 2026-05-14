@@ -38,8 +38,6 @@ class ContactServiceTest {
   @InjectMocks
   private ContactService contactService;
 
-  // ---------------- helpers ----------------
-
   private Profile profile() {
     return Profile.builder().id(1L).firstName("Ivan").lastName("Ivanov").build();
   }
@@ -51,8 +49,6 @@ class ContactServiceTest {
         .email("a@a.ru")
         .build();
   }
-
-  // ---------------- create / save ----------------
 
   @Test
   @DisplayName("create: профиль найден — контакт сохраняется с проставленным Profile")
@@ -87,8 +83,6 @@ class ContactServiceTest {
     verify(contactRepository, never()).save(any());
   }
 
-  // ---------------- findById ----------------
-
   @Test
   @DisplayName("findById: контакт найден — возвращается DTO")
   void findById_found_returnsDto() {
@@ -109,8 +103,6 @@ class ContactServiceTest {
     assertThrows(NotFoundException.class, () -> contactService.findById(5L));
   }
 
-  // ---------------- findAll ----------------
-
   @Test
   @DisplayName("findAll: возвращается список")
   void findAll_returnsList() {
@@ -122,8 +114,6 @@ class ContactServiceTest {
 
     assertEquals(2, contactService.findAll().size());
   }
-
-  // ---------------- findByProfileId ----------------
 
   @Test
   @DisplayName("findByProfileId: возвращается список контактов профиля")
@@ -137,8 +127,6 @@ class ContactServiceTest {
     assertEquals(1, result.size());
     verify(contactRepository).findByProfileId(1L);
   }
-
-  // ---------------- update ----------------
 
   @Test
   @DisplayName("update: phone и email обновляются")
@@ -170,8 +158,6 @@ class ContactServiceTest {
         () -> contactService.update(99L, ContactDto.builder().profileId(1L).build()));
     verify(contactRepository, never()).save(any());
   }
-
-  // ---------------- deleteById ----------------
 
   @Test
   @DisplayName("deleteById: вызывает репозиторий")

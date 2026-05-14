@@ -50,8 +50,6 @@ class ProfileServiceTest {
   @InjectMocks
   private ProfileService profileService;
 
-  // ---------------- helpers ----------------
-
   private User user() {
     return User.builder().id(1L).username("ivan").build();
   }
@@ -60,8 +58,6 @@ class ProfileServiceTest {
     return ProfileDto.builder()
         .userId(1L).firstName("Ivan").lastName("Ivanov").middleName("I.").build();
   }
-
-  // ---------------- create ----------------
 
   @Test
   @DisplayName("create: user найден — профиль сохраняется")
@@ -95,8 +91,6 @@ class ProfileServiceTest {
     verify(profileRepository, never()).save(any());
   }
 
-  // ---------------- findById ----------------
-
   @Test
   @DisplayName("findById: профиль найден — возвращается DTO")
   void findById_found_returnsDto() {
@@ -114,8 +108,6 @@ class ProfileServiceTest {
     when(profileRepository.findById(99L)).thenReturn(Optional.empty());
     assertThrows(NotFoundException.class, () -> profileService.findById(99L));
   }
-
-  // ---------------- findByUserId ----------------
 
   @Test
   @DisplayName("findByUserId: найден — DTO")
@@ -135,8 +127,6 @@ class ProfileServiceTest {
     assertThrows(NotFoundException.class, () -> profileService.findByUserId(1L));
   }
 
-  // ---------------- findAll ----------------
-
   @Test
   @DisplayName("findAll: возвращает список DTO")
   void findAll_returnsList() {
@@ -148,8 +138,6 @@ class ProfileServiceTest {
 
     assertEquals(2, profileService.findAll().size());
   }
-
-  // ---------------- update ----------------
 
   @Test
   @DisplayName("update: имена обновляются")
@@ -182,18 +170,12 @@ class ProfileServiceTest {
     verify(profileRepository, never()).save(any());
   }
 
-  // ---------------- deleteById ----------------
-
   @Test
   @DisplayName("deleteById: вызывает репозиторий")
   void deleteById_callsRepo() {
     profileService.deleteById(10L);
     verify(profileRepository, times(1)).deleteById(10L);
   }
-
-  // =========================================================
-  //              saveFullProfileDemo (транзакция)
-  // =========================================================
 
   @Test
   @DisplayName("saveFullProfileDemo: все контакты валидны — профиль и контакты сохранены")

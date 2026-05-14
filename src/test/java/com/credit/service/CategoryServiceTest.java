@@ -36,8 +36,6 @@ class CategoryServiceTest {
   @InjectMocks
   private CategoryService categoryService;
 
-  // ---------------- create ----------------
-
   @Test
   @DisplayName("create: сущность сохраняется, возвращается DTO")
   void create_savesAndReturnsDto() {
@@ -55,8 +53,6 @@ class CategoryServiceTest {
     assertEquals(10L, result.getId());
     verify(categoryRepository).save(any(Category.class));
   }
-
-  // ---------------- findById ----------------
 
   @Test
   @DisplayName("findById: категория есть — возвращается DTO")
@@ -81,8 +77,6 @@ class CategoryServiceTest {
     assertThrows(NotFoundException.class, () -> categoryService.findById(99L));
   }
 
-  // ---------------- findAll ----------------
-
   @Test
   @DisplayName("findAll: возвращается список DTO")
   void findAll_returnsList() {
@@ -97,8 +91,6 @@ class CategoryServiceTest {
 
     assertEquals(2, result.size());
   }
-
-  // ---------------- update ----------------
 
   @Test
   @DisplayName("update: поля сущности обновляются и сохраняются")
@@ -130,16 +122,12 @@ class CategoryServiceTest {
     verify(categoryRepository, never()).save(any());
   }
 
-  // ---------------- deleteById ----------------
-
   @Test
   @DisplayName("deleteById: вызывает репозиторий")
   void deleteById_callsRepo() {
     categoryService.deleteById(1L);
     verify(categoryRepository, times(1)).deleteById(1L);
   }
-
-  // ---------------- doubleSaveDemo ----------------
 
   @Test
   @DisplayName("doubleSaveDemo: все DTO валидны — все сохраняются")

@@ -56,8 +56,6 @@ class LoanServiceBulkTest {
     category = Category.builder().id(1L).name("Mortgage").rate(7.5f).build();
   }
 
-  // ---------------- helpers ----------------
-
   private LoanDto fullDto(Double amount, String state) {
     return LoanDto.builder()
         .amount(amount).currentState(state)
@@ -79,10 +77,6 @@ class LoanServiceBulkTest {
         .profile(ProfileDto.builder().id(profileId).build())
         .build();
   }
-
-  // =========================================================
-  //                 createBulk: happy path
-  // =========================================================
 
   @Test
   @DisplayName("createBulk: 2 валидных DTO — оба сохраняются, "
@@ -118,10 +112,6 @@ class LoanServiceBulkTest {
     verify(loanCache, never()).invalidateByProfileId(any());
     verify(loanCache).clear();
   }
-
-  // =========================================================
-  //         validateAndBuildLoan: ветки amount
-  // =========================================================
 
   @Test
   @DisplayName("createBulk: amount == null — BusinessException, ничего не сохранено, кэш не очищен")
@@ -166,10 +156,6 @@ class LoanServiceBulkTest {
     verify(loanRepository, never()).saveAndFlush(any(Loan.class));
   }
 
-  // =========================================================
-  //       validateAndBuildLoan: ветка currentState=FAIL
-  // =========================================================
-
   @Test
   @DisplayName("createBulk: currentState='FAIL' во втором DTO — BusinessException, "
       + "первый займ уже сохранён (откат пойдёт через @Transactional)")
@@ -187,9 +173,7 @@ class LoanServiceBulkTest {
 
     assertThrows(BusinessException.class, () -> loanService.createBulk(input));
 
-    // первый успел сохраниться до выброса
     verify(loanRepository, times(1)).saveAndFlush(any(Loan.class));
-    // clear() и invalidateByProfileId() не должны вызваться, т.к. упало до них
     verify(loanCache, never()).clear();
     verify(loanCache, never()).invalidateByProfileId(any());
   }
@@ -205,10 +189,6 @@ class LoanServiceBulkTest {
     assertThrows(BusinessException.class, () -> loanService.createBulk(input));
     verify(loanRepository, never()).saveAndFlush(any(Loan.class));
   }
-
-  // =========================================================
-  //     validateAndBuildLoan: ветки profile / categories
-  // =========================================================
 
   @Test
   @DisplayName("createBulk: profile == null в DTO — сохраняется без профиля, "
@@ -277,10 +257,6 @@ class LoanServiceBulkTest {
     verify(loanRepository, never()).saveAndFlush(any(Loan.class));
   }
 
-  // =========================================================
-  //   createBulk: ветки результирующего invalidateByProfileId
-  // =========================================================
-
   @Test
   @DisplayName("createBulk: первый сохранённый DTO имеет profile.id — "
       + "invalidateByProfileId вызывается ровно с этим id")
@@ -310,7 +286,6 @@ class LoanServiceBulkTest {
 
     when(loanMapper.toEntity(any(LoanDto.class))).thenReturn(new Loan());
     when(loanRepository.saveAndFlush(any(Loan.class))).thenAnswer(inv -> inv.getArgument(0));
-    // в результирующем DTO profile == null
     when(loanMapper.toDto(any(Loan.class)))
         .thenReturn(LoanDto.builder().profile(null).build());
 

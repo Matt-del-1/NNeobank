@@ -295,25 +295,24 @@ public class LoanService {
   }
   @Transactional
   public List<LoanDto> createBulk(List<LoanDto> dtos) {
-    log.info("BULK: {} loans to save", dtos.size());
+    log.info("Bulk creating {} loans", dtos.size());
+
+    if (dtos.isEmpty()) {
+      log.warn("Bulk create called with empty list");
+      throw new BusinessException("No loans to create");
+    }
 
     List<LoanDto> result = dtos.stream()
         .map(dto -> {
           Loan entity = validateAndBuildLoan(dto);
           Loan saved = loanRepository.saveAndFlush(entity);
           log.info("BULK: saved loan id={}", saved.getId());
+          invalidateCacheForNewLoan(saved);
           return loanMapper.toDto(saved);
         })
         .toList();
 
-    result.stream()
-        .findFirst()
-        .flatMap(dto -> Optional.ofNullable(dto.getProfile()))
-        .map(profileDto -> profileDto.getId())
-        .ifPresent(loanCache::invalidateByProfileId);
-
-    loanCache.clear();
-    log.info("BULK: saved {} loans", result.size());
+    log.info("Successfully bulk created {} loans", result.size());
     return result;
   }
 
